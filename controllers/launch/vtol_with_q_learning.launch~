@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="x0" default="0"/>
+	<arg name="y0" default="0"/>
+	<arg name="z0" default="0"/>
+
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(find vtol)/worlds/vtol.world"/>
+		<arg name="paused" value="false"/>
+		<arg name="gui" value="true"/>
+		<arg name="debug" value="true"/>
+	</include>
+	
+	<!-- Spawn the VTOL into Gazebo -->
+	<include file="$(find vtol)/launch/spawn_vtol.launch">
+		<arg name="robotName" value="vtol"/>
+		<arg name="x0" value="$(arg x0)"/>
+		<arg name="y0" value="$(arg y0)"/>
+		<arg name="z0" value="$(arg z0)"/>
+	</include>
+
+	<!-- Launch Q-Learning -->
+	<include file="$(find controllers)/launch/q_learning.launch">
+		<arg name="x0" value="$(arg x0)"/>
+		<arg name="y0" value="$(arg y0)"/>
+		<arg name="z0" value="$(arg z0)"/>
+	</include>
+</launch>

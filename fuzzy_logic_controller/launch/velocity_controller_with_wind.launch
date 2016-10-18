@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="robotName" value="Y6"/>
+
+	<remap from="/uav/command_velocity" to="/$(arg robotName)/command/velocity"/>
+	<remap from="/uav/position" to="/$(arg robotName)/position"/>
+	<remap from="/uav/velocity" to="/$(arg robotName)/linear_velocity"/>
+	<remap from="/uav/noise/position" to="/$(arg robotName)/noise/position"/>
+	<remap from="/uav/odometry" to="/$(arg robotName)/odometry"/>
+	<remap from="/uav/true_odometry" to="/$(arg robotName)/ground_truth/odometry"/>
+	<remap from="/uav/noise" to="/$(arg robotName)/noise"/>
+
+	<node name="fuzzy_controller" pkg="fuzzy_logic_controller" type="velocity_controller" output="screen" args=""/>
+
+	<node name="dynamic_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" args=""/>
+
+	<include file="$(find rotors_gazebo)/launch/$(arg robotName)_with_wind.launch"/>
+</launch>

@@ -1,0 +1,13 @@
+<launch>
+	
+	<remap from="/vtol/velocity" to="/tricopter/linear_velocity"/>
+	<remap from="/vtol/attitude" to="/tricopter/attitude"/>
+	<remap from="/vtol/angular_velocity" to="/tricopter/angular_velocity"/>
+	<remap from="/vtol/input" to="/tricopter/input/full_input"/>
+
+	<node name="se3" pkg="controllers" type="se3" output="screen" args=""/>
+
+	<node name="dynamic_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" args=""/>
+
+	<include file="$(find vtol)/launch/3DR.launch"/>
+</launch>

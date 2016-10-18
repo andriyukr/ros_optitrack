@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<launch>
+	<arg name="robotName" value="bebop"/>
+
+	<remap from="/uav/command_velocity" to="/$(arg robotName)/command/velocity"/>
+	<remap from="/uav/command/velocity" to="/$(arg robotName)/command/velocity"/>
+	<remap from="/uav/command/motor_speed" to="/$(arg robotName)/command/motor_speed"/>
+	<remap from="/uav/position" to="/$(arg robotName)/position"/>
+	<remap from="/uav/velocity" to="/$(arg robotName)/linear_velocity"/>
+	<remap from="/uav/noise/position" to="/$(arg robotName)/noise/position"/>
+	<remap from="/uav/odometry" to="/$(arg robotName)/odometry"/>
+	<remap from="/uav/true_odometry" to="/$(arg robotName)/ground_truth/odometry"/>
+	<remap from="/uav/trajectory" to="/$(arg robotName)/trajectory"/>
+	<remap from="/uav/noise" to="/$(arg robotName)/noise"/>
+
+	<node name="t1flc" pkg="fuzzy_logic_controller" type="velocity_controller" output="screen" args=""/>
+    <node name="trajectory" pkg="controllers" type="trajectory" output="screen" args=""/>
+	<node name="noise" pkg="controllers" type="noise" output="screen" args=""/>
+	<node name="logger" pkg="controllers" type="logger" output="screen" args="t1flc"/>
+
+	<node name="dynamic_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen" args=""/>
+
+	<include file="$(find rotors_gazebo)/launch/$(arg robotName).launch"/>
+</launch>
